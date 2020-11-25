@@ -1,3 +1,4 @@
 temple-world-demo-build
 =======================
-README text here.
+`temple-world-demo-build` is a CodeSpells build! Learn more at https://codespells.org.
+
