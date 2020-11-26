@@ -2,21 +2,30 @@
 
 (require temple-world-demo-build/mod-info)
 
-(define-classic-rune (hello)
-  #:background "blue"
-  #:foreground (circle 40 'solid 'blue)
-  (spawn-mod-blueprint pak-folder mod-name "HelloWorld"))
+(require-mod hierarchy)
+(require-mod spawners)
+(require-mod fire-particles)
+(require-mod ice-particles)
+(require-mod rocks)
 
-(define-classic-rune-lang my-mod-lang #:eval-from main.rkt
-  (hello))
+(define my-mod-lang
+  (append-rune-langs #:name main.rkt  
+                     (hierarchy:my-mod-lang #:with-paren-runes? #t)
+                     (spawners:my-mod-lang)
+                     (fire-particles:my-mod-lang)
+                     (ice-particles:my-mod-lang)
+                     (rocks:my-mod-lang)
+		     ))
+
 
 (module+ main
+
   (codespells-workspace ;TODO: Change this to your local workspace if different
-   (build-path (current-directory) ".." "CodeSpellsWorkspace"))
-  
+   ;(build-path (current-directory) ".." "..")
+   (build-path (current-directory))
+   )
+
   (once-upon-a-time
-   #:world (demo-world)
+   #:world (temple-world)
    #:aether (demo-aether
-             #:lang (my-mod-lang #:with-paren-runes? #t))))
-
-
+             #:lang my-mod-lang)))
